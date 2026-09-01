@@ -20,7 +20,7 @@ jobs:
           chmod +x ./gradlew
 # Gradle Build
       - name: Build with Gradlew
-        run: ./gradlew clean build -x text
+        run: ./gradlew clean build -x test
 # AWS 연결
       - name: Set SSH key Permission
         run: |
