@@ -72,15 +72,15 @@ jobs:
 # Add Known_hosts
       - name: Add Known_hosts
         run: |
-          ssh-keyscan -H ed25519 54.180.149.104 >> ~/.ssh/known_host
+          ssh-keyscan -H ed25519 52.79.240.143 >> ~/.ssh/known_host
 # Jar 파일을 AWS 전송 => Docker 이미지
       - name: Deploy to Server with rsync
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" build/libs/*.jar ubuntu@54.180.149.104:~/app
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" build/libs/*.jar ubuntu@52.79.240.143:~/app
 # 9090 포트 Kill => container 삭제
       - name: Run command
         run: |
-          ssh -i ~/.ssh/id_ed25519 ubuntu@15.164.233.3 << 'EOF'
+          ssh -i ~/.ssh/id_ed25519 ubuntu@52.79.240.143 << 'EOF'
             pkill -f 'java -jar' || true
             cd ~/app &&
             set -a &&
