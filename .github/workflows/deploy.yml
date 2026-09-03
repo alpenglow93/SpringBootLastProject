@@ -75,7 +75,7 @@ jobs:
             cd ~/app
             rm -f .env
             
-            echo "DB_URL=${{secrets.TEAMDB_URL}}" >> ~/app/.env
+            echo "TEAMDB_URL=${{secrets.TEAMDB_URL}}" >> ~/app/.env
             echo "DB_USERNAME=${{secrets.DB_USERNAME}}" >> ~/app/.env
             echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> ~/app/.env
             chmod 600 ~/app/.env
