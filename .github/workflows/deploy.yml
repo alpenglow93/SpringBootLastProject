@@ -44,9 +44,9 @@ jobs:
 # Docker Hub 연결 = 로그인
       - name: Login Docker Hub
         run: |
-          echo "${{secrets.DOCKERHUB_PASSWORD}}" |\
+          echo ${{secrets.DOCKERHUB_PASSWORD}} |\
           docker login \
-          -u "${{secrets.DOCKERHUB_USERNAME}}" \
+          -u ${{secrets.DOCKERHUB_USERNAME}} \
           --password-stdin
 # Docker 이미지 생성
       - name: Build Docker Image
