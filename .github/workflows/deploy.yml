@@ -68,14 +68,14 @@ jobs:
           ssh-keyscan -H 52.79.240.143 >> ~/.ssh/known_host
 # 환경설정
 # DB 관련 => .env
-      - name: env
+      - name: 환경설정
         run: |
           ssh ubuntu@52.79.240.143 << EOF
             mkdir -p ~/app
             cd ~/app
             rm -f .env
             
-            echo "TEAMDB_URL=${{secrets.TEAMDB_URL}}" >> ~/app/.env
+            echo "DB_URL=${{secrets.TEAMDB_URL}}" >> ~/app/.env
             echo "DB_USERNAME=${{secrets.DB_USERNAME}}" >> ~/app/.env
             echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> ~/app/.env
             chmod 600 ~/app/.env
