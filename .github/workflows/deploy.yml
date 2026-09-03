@@ -57,7 +57,7 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push \
-          ${{secrets.DOCKER_USERNAME}}/last-app:latest
+          ${{secrets.DOCKER_USERNAME}}/last-app:latest .
 # AWS 연결 => DockerHub 데이터 Pull
       - name: Set SSH key Permission
         run: |
