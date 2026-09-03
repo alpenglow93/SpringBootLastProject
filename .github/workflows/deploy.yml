@@ -24,15 +24,7 @@ jobs:
           # temurin : 가장 최소(가벼운) 단위 JDK = 이클립스 JDK 사용
           distribution: 'temurin'
           java-version: '21'
-      # 환경설정
-      # DB 관련 => .env
-      - name: env
-        run: |
-          rm -f .env
-          touch .env
-          echo "TEAMDB_URL=${{secrets.TEAMDB_URL}}" >> .env
-          echo "DB_USERNAME=${{secrets.DB_USERNAME}}" >> .env
-          echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> .env
+      
 
 # Gradlew  권한 부여
       - name: Set gradlew permission
@@ -64,6 +56,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{secrets.SERVER_SSH_KEY}}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+          
 # ADD SSH Key
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.5.3
@@ -72,7 +65,21 @@ jobs:
 # Add Known_hosts
       - name: Add Known_hosts
         run: |
-          ssh-keyscan -H ed25519 52.79.240.143 >> ~/.ssh/known_host
+          ssh-keyscan -H 52.79.240.143 >> ~/.ssh/known_host
+# 환경설정
+# DB 관련 => .env
+      - name: env
+        run: |
+          ssh ubuntu@52.79.240.143 << EOF
+            mkdir -p ~/app
+            cd ~/app
+            rm -f .env
+            
+            echo "TEAMDB_URL=${{secrets.TEAMDB_URL}}" >> ~/app/.env
+            echo "DB_USERNAME=${{secrets.DB_USERNAME}}" >> ~/app/.env
+            echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> ~/app/.env
+            chmod 600 ~/app/.env
+          EOF
 # Deploy on server DockerHub Image using
       - name: DockerHub Image using
         run: |
@@ -80,5 +87,5 @@ jobs:
             docker stop last-app || true
             docker rm last-app || true
             docker pull ${{secrets.DOCKER_USERNAME}}/last-app:latest
-            docker run -d --name last-app --env-file .env -p 9090:9090 ${{secrets.DOCKER_USERNAME}}/last-app:latest
+            docker run -d --name last-app --env-file ~/app/.env -p 9090:9090 ${{secrets.DOCKER_USERNAME}}/last-app:latest
           EOF
